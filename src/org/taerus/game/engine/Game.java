@@ -2,13 +2,10 @@ package org.taerus.game.engine;
 
 
 import javafx.application.Application;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.taerus.game.resources.ResourceManager;
 import org.taerus.game.states.State;
-
-import java.util.Stack;
 
 public class Game extends Application {
 
@@ -23,21 +20,32 @@ public class Game extends Application {
         resources = ResourceManager.getInstance();
         states = StateStack.getInstance();
 
-        states.add(State.BOOT);
+        states.push(State.BOOT, 4000.);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(final Stage primaryStage) throws Exception {
 
-        GameLoop mainLoop = new GameLoop(60) {
+        Group root = new Group();
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+
+        Graphics.init(1280, 720, root);
+
+
+        final GameLoop mainLoop = new GameLoop(60) {
             @Override
             public void update(double delta) {
+                if(states.isEmpty()) {
+                    primaryStage.close();
+                    stop();
+                }
                 states.update(delta);
             }
 
             @Override
-            public void render() {
-                states.render();
+            public void render(Graphics graphics) {
+                states.render(graphics);
             }
         };
 

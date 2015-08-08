@@ -7,6 +7,8 @@ public abstract class GameLoop implements I {
 
     private AnimationTimer timer;
 
+    private Graphics graphics;
+
     private double updateRate;
     private double frameRate;
 
@@ -19,6 +21,7 @@ public abstract class GameLoop implements I {
 
         this.updateRate = updateRate;
         this.frameRate = frameRate;
+        this.graphics = Graphics.getInstance();
 
         this.timer = new AnimationTimer() {
             @Override
@@ -40,11 +43,11 @@ public abstract class GameLoop implements I {
                 if(getFrameRate() > 0) {
                     timeSinceLastFrame += elapsedTime;
                     if(timeSinceLastFrame >= getFrameDuration()) {
-                        render();
+                        render(graphics);
                         timeSinceLastFrame = 0.0;
                     }
                 } else {
-                    render();
+                    render(graphics);
                 }
             }
         };
