@@ -21,13 +21,15 @@ public class StateStack implements I {
 
     Stack<GameState> states;
     HashMap<String, Integer> tags;
+    GameState currentState;
 
     private StateStack() {
         states = new Stack<>();
         tags = new HashMap<>();
+        currentState = null;
     }
 
-    public boolean push(@NotNull State state, Object... args) {
+    public void push(@NotNull State state, Object... args) {
         GameState newState = null;
 
         switch (state) {
@@ -40,19 +42,12 @@ public class StateStack implements I {
                 break;
         }
 
-        if (newState != null) {
-            states.push(newState.set(args));
-        }
-
-        return newState != null;
+        states.push(newState.set(args));
     }
 
-    public boolean push(String tag, State state, Object... args) {
-        boolean result = push(state, args);
-
-        if (result) tags.put(tag, states.size() - 1);
-
-        return result;
+    public void push(@NotNull String tag, @NotNull State state, Object... args) {
+        push(state, args);
+        tags.put(tag, states.size() - 1);
     }
 
     public void pop() {
@@ -70,18 +65,20 @@ public class StateStack implements I {
     @Override
     public void update(double delta) {
         if(!states.isEmpty()) {
-            GameState state = states.peek();
-            if (!state.isInitialized()) {
-                state.init();
+            currentState = states.peek();
+            if (!currentState.isInitialized()) {
+                currentState.init();
             }
-            state.update(delta);
+            currentState.update(delta);
+        } else {
+            currentState = null;
         }
     }
 
     @Override
-    public void render(Graphics graphics) {
+    public void render() {
         if(!states.isEmpty()) {
-            states.peek().render(graphics);
+            currentState.render();
         }
     }
 

@@ -19,27 +19,40 @@ public class BootState extends GameState {
 
     private Image backgroung;
 
+    private boolean loadingSimulation;
+
     @Override
     public void onInit(Object... args) {
         progress = 0.;
         loadingTime = 0.;
-        loadingDuration = (Double) args[0];
+
+        loadingSimulation = args.length > 0;
+        loadingDuration = loadingSimulation ? (Double) args[0] : 0.;
 
         ResourceManager resources = ResourceManager.getInstance();
-        backgroung = resources.loadImage("loading-background", "assets/loading-background.png", false);
+        backgroung = resources.loadImage("background/loading", "assets/loading-background.png", false);
+        ResourceManager.getInstance().loadImage("background/title", "assets/title-background.jpg");
     }
 
     @Override
     public void update(double delta) {
-        loadingTime += delta;
-        progress = Math.min(100., loadingTime / loadingDuration * 100.);
-        if(progress >= 100) {
-            states.push(State.TITLE);
+        if (loadingSimulation) {
+            loadingTime += delta;
+            progress = Math.min(100., loadingTime / loadingDuration * 100.);
+            if(progress >= 100) {
+                states.push(State.TITLE);
+            }
+        } else {
+            if(ResourceManager.getInstance().getImage("background/title").getProgress() == 1) {
+                states.push(State.TITLE);
+            }
         }
     }
 
     @Override
-    public void render(Graphics graphics) {
+    public void render() {
+        Graphics graphics = Graphics.getInstance();
+
         double centerX = graphics.width()/2;
         double centerY = graphics.height()/2;
 

@@ -43,11 +43,11 @@ public abstract class GameLoop implements I {
                 if(getFrameRate() > 0) {
                     timeSinceLastFrame += elapsedTime;
                     if(timeSinceLastFrame >= getFrameDuration()) {
-                        render(graphics);
+                        render();
                         timeSinceLastFrame = 0.0;
                     }
                 } else {
-                    render(graphics);
+                    render();
                 }
             }
         };

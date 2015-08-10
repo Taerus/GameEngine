@@ -20,7 +20,9 @@ public class Game extends Application {
         resources = ResourceManager.getInstance();
         states = StateStack.getInstance();
 
-        states.push(State.BOOT, 4000.);
+        states.push(State.BOOT, 1000.);
+//        states.push(State.BOOT);
+//        states.push(State.TITLE);
     }
 
     @Override
@@ -44,8 +46,8 @@ public class Game extends Application {
             }
 
             @Override
-            public void render(Graphics graphics) {
-                states.render(graphics);
+            public void render() {
+                states.render();
             }
         };
 

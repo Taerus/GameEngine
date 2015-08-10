@@ -7,7 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-public class Graphics {
+public final class Graphics {
 
     private static Graphics instance = null;
 
@@ -50,7 +50,7 @@ public class Graphics {
     }
 
     public void clear() {
-        clear(Color.WHITE);
+        gc.clearRect(0.0, 0.0, width(), height());
     }
 
     public GraphicsContext getGraphicsContext() {

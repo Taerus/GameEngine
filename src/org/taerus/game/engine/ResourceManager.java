@@ -29,4 +29,8 @@ public class ResourceManager {
         return loadImage(key, url, true);
     }
 
+    public Image getImage(String key) {
+        return images.get(key);
+    }
+
 }
