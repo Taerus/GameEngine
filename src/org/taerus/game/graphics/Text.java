@@ -1,11 +1,13 @@
 package org.taerus.game.graphics;
 
 
+import javafx.geometry.VPos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 
 public class Text extends Shape {
 
@@ -13,6 +15,8 @@ public class Text extends Shape {
     private String fontFamily;
     private FontPosture fontPosture;
     private FontWeight fontWeight;
+    private TextAlignment align;
+    private VPos baseLine;
     private double fontSize;
 
     public Text(String text, Point position, String family, double size, Paint fillColor) {
@@ -21,6 +25,8 @@ public class Text extends Shape {
         this.fontFamily = family;
         this.fontPosture = FontPosture.REGULAR;
         this.fontWeight = FontWeight.NORMAL;
+        this.align = TextAlignment.LEFT;
+        this.baseLine = VPos.TOP;
         this.fontSize = size;
     }
 
@@ -31,6 +37,8 @@ public class Text extends Shape {
     @Override
     protected void onDraw(GraphicsContext gc) {
         gc.setFont(Font.font(fontFamily, fontWeight, fontPosture, fontSize));
+        gc.setTextAlign(align);
+        gc.setTextBaseline(baseLine);
         if (isFilled()) {
             gc.setFill(getFillColor());
             gc.fillText(text, 0., 0.);
@@ -73,6 +81,22 @@ public class Text extends Shape {
 
     public void setFontWeight(FontWeight fontWeight) {
         this.fontWeight = fontWeight;
+    }
+
+    public TextAlignment getAlign() {
+        return align;
+    }
+
+    public void setAlign(TextAlignment align) {
+        this.align = align;
+    }
+
+    public VPos getBaseLine() {
+        return baseLine;
+    }
+
+    public void setBaseLine(VPos baseLine) {
+        this.baseLine = baseLine;
     }
 
     public double getFontSize() {

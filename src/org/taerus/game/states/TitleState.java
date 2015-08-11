@@ -20,7 +20,6 @@ public class TitleState extends GameState {
     private int state;
     private double x;
     private double y;
-    private double angle;
 
     private Sprite background;
     private Text title;
@@ -32,12 +31,13 @@ public class TitleState extends GameState {
         state = 0;
         x = 0;
         y = 0;
-        angle = 0;
 
         background = new Sprite(ResourceManager.getInstance().getImage("background/title"));
 
         title = new Text("Je suis un titre", (Graphics.getInstance().width()/2), 120, "Comic sans MS", 120, Color.GREEN);
         title.setFontWeight(FontWeight.BOLD);
+        title.setAlign(TextAlignment.CENTER);
+        title.setBaseLine(VPos.CENTER);
         title.stroke(Color.DARKGREEN, 3);
 
         rect = new Rectangle(200, 400, 200, 100);
@@ -47,13 +47,14 @@ public class TitleState extends GameState {
         rect2 = new Rectangle(10, 10, 50, 50);
         rect2.setRotationPivot(25, 25);
         rect2.setFillColor(Color.CYAN);
+
+        // ajout de rect2 comme fils de rect
         rect.add(rect2);
     }
 
     @Override
     public void update(double delta) {
         double dt = delta / 1000.;
-        angle += dt * 45.;
         switch (state) {
             case 0:
                 y += dt*100;
@@ -69,29 +70,12 @@ public class TitleState extends GameState {
 
     @Override
     public void render() {
-        Graphics graphics = Graphics.getInstance();
-
-//        graphics.clear(Color.LIGHTBLUE);
-
-        GraphicsContext gc = graphics.getGraphicsContext();
+        Graphics.getInstance().clear();
 
         Transform global = Transform.translate(x, y);
 
-
         background.draw();
         rect.draw(global);
-
-//        Transform tr1 = Transform.rotate(angle, graphics.width() / 2, 120);
-//        gc.setTransform(new Affine(tr1.createConcatenation(global)));
-
-//        gc.setFill(Color.GREEN);
-//        gc.setStroke(Color.DARKGREEN);
-//        gc.setLineWidth(3);
-        gc.setTextAlign(TextAlignment.CENTER);
-        gc.setTextBaseline(VPos.CENTER);
-//        gc.setFont(Font.font("Comic sans MS", FontWeight.BOLD, 120));
-//        gc.fillText("Je suis un titre", graphics.width() / 2, 120);
-//        gc.strokeText("Je suis un titre", graphics.width() / 2, 120);
         title.draw();
     }
 

@@ -51,10 +51,8 @@ public abstract class Drawable {
         gc.restore();
     }
 
-    protected abstract void onDraw(GraphicsContext gc);
-
     public final void draw(GraphicsContext gc) {
-        draw(gc, getTransform());
+        draw(gc, new Affine());
     }
 
     public final void draw(Transform transform) {
@@ -62,8 +60,10 @@ public abstract class Drawable {
     }
 
     public final void draw() {
-        draw(Graphics.getInstance().getGraphicsContext(), getTransform());
+        draw(Graphics.getInstance().getGraphicsContext(), new Affine());
     }
+
+    protected abstract void onDraw(GraphicsContext gc);
 
     public final void add(Drawable child) {
         children.add(child);

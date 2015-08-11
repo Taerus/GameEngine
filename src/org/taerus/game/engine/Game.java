@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.taerus.game.event.Events;
 import org.taerus.game.states.State;
 
 public class Game extends Application {
@@ -20,8 +21,8 @@ public class Game extends Application {
         resources = ResourceManager.getInstance();
         states = StateStack.getInstance();
 
-        states.push(State.BOOT, 1000.);
-//        states.push(State.BOOT);
+//        states.push(State.BOOT, 1000.);
+        states.push(State.BOOT);
 //        states.push(State.TITLE);
     }
 
@@ -33,7 +34,7 @@ public class Game extends Application {
         primaryStage.setScene(scene);
 
         Graphics.init(1280, 720, root);
-
+        Events.init(scene);
 
         final GameLoop mainLoop = new GameLoop(60) {
             @Override
