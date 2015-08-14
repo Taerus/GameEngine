@@ -2,9 +2,7 @@ package org.taerus.game.states;
 
 
 import javafx.geometry.VPos;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Transform;
@@ -32,7 +30,7 @@ public class TitleState extends GameState {
         x = 0;
         y = 0;
 
-        background = new Sprite(ResourceManager.getInstance().getImage("background/title"));
+        background = new Sprite(ResourceManager.get().getImage("background/title"));
 
         title = new Text("Je suis un titre", (Graphics.getInstance().width()/2), 120, "Comic sans MS", 120, Color.GREEN);
         title.setFontWeight(FontWeight.BOLD);

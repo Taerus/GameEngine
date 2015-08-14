@@ -54,7 +54,7 @@ public class Sprite extends Drawable {
     }
 
     public void setImage(String key) {
-        this.image = ResourceManager.getInstance().getImage(key);
+        this.image = ResourceManager.get().getImage(key);
         resetSize();
     }
 

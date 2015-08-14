@@ -29,9 +29,19 @@ public class BootState extends GameState {
         loadingSimulation = args.length > 0;
         loadingDuration = loadingSimulation ? (Double) args[0] : 0.;
 
-        ResourceManager resources = ResourceManager.getInstance();
-        backgroung = resources.loadImage("background/loading", "assets/loading-background.png", false);
-        ResourceManager.getInstance().loadImage("background/title", "assets/title-background.jpg");
+        ResourceManager resources = ResourceManager.get();
+        resources.add("background/loading", "assets/loading-background.png")
+                .add("background/title", "assets/title-background.jpg");
+
+        resources.createResourceSet("boot")
+                .add("background/loading")
+                .load();
+
+        resources.createResourceSet("title")
+                .add("background/title")
+                .load();
+
+        backgroung = resources.getImage("background/loading");
     }
 
     @Override
@@ -43,8 +53,11 @@ public class BootState extends GameState {
                 states.push(State.TITLE);
             }
         } else {
-            if(ResourceManager.getInstance().getImage("background/title").getProgress() == 1) {
+            if(ResourceManager.get().getImage("background/title").getProgress() == 1) {
+                states.pop();
                 states.push(State.TITLE);
+                ResourceManager.get().selectResourceSet("boot").free();
+                ResourceManager.get().selectResourceSet("title").load();
             }
         }
     }

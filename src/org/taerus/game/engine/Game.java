@@ -18,10 +18,10 @@ public class Game extends Application {
     }
 
     public Game() {
-        resources = ResourceManager.getInstance();
+        resources = ResourceManager.get();
         states = StateStack.getInstance();
 
-//        states.push(State.BOOT, 1000.);
+//        states.push(State.BOOT, 4000.);
         states.push(State.BOOT);
 //        states.push(State.TITLE);
     }
